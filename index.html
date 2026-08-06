@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DE Venom — Cinematic AI Studio</title>
+<style>
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#020712;color:#f6f6f7;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:-30%;background:radial-gradient(circle at 15% 18%,#0b3b70aa,transparent 32%),radial-gradient(circle at 85% 12%,#092a55aa,transparent 30%),radial-gradient(circle at 50% 85%,#061a38aa,transparent 38%);filter:blur(30px);pointer-events:none;z-index:-1}
+nav{position:sticky;top:0;z-index:20;background:#020712ee;backdrop-filter:blur(16px);border-bottom:1px solid #ffffff12;padding:16px 5vw;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:900;letter-spacing:-.04em}.logo span{opacity:.55}.navlinks{display:flex;gap:18px}.navlinks a{color:#ddd;text-decoration:none;font-size:14px}
+.hero{min-height:78vh;display:grid;place-items:center;text-align:center;padding:80px 5vw 50px}
+.badge{display:inline-flex;padding:8px 12px;border:1px solid #ffffff1c;border-radius:999px;background:#ffffff08;font-size:12px;color:#ddd}
+h1{font-size:clamp(48px,9vw,105px);line-height:.9;letter-spacing:-.07em;margin:22px auto;max-width:1000px}
+.grad{background:linear-gradient(110deg,#ffffff,#93c5fd,#38bdf8,#dbeafe,#ffffff);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero p{max-width:700px;margin:auto;color:#aaa;font-size:18px;line-height:1.6}
+.btn{border:0;border-radius:12px;padding:14px 18px;font-weight:800;cursor:pointer;background:#fff;color:#08080a}
+.btn.secondary{background:#ffffff0c;color:#fff;border:1px solid #ffffff18}.actions{display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+section{width:min(1120px,90vw);margin:0 auto 100px}.section-title{font-size:34px;letter-spacing:-.04em;margin-bottom:10px}.muted{color:#92929b}
+.card{background:#ffffff08;border:1px solid #ffffff12;border-radius:24px;padding:28px;box-shadow:0 20px 70px #0005}
+.creator{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}.field{margin-bottom:18px}label{display:block;font-size:13px;color:#bbb;margin-bottom:8px}input[type=text],input[type=password],input[type=number],textarea{width:100%;border:1px solid #ffffff18;background:#0008;color:#fff;border-radius:12px;padding:13px;outline:none}textarea{min-height:90px;resize:vertical}
+.drop{border:1px dashed #ffffff2b;border-radius:18px;padding:24px;text-align:center;background:#0005}.drop input{width:100%}.preview{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.preview img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.result{display:none;margin-top:20px;border:1px solid #ffffff18;padding:18px;border-radius:16px;background:#0006}.result a{color:#c4b5fd;word-break:break-all}
+.pricing{display:grid;grid-template-columns:1fr 1fr;gap:18px}.price{font-size:40px;font-weight:900;margin:10px 0}.price small{font-size:14px;color:#999;font-weight:500}.feature{color:#bbb;margin:10px 0}
+.admin{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admin .full{grid-column:1/-1}
+footer{text-align:center;color:#666;border-top:1px solid #ffffff0d;padding:30px}
+.status{margin-top:12px;font-size:13px;color:#aaa}.success{color:#86efac}.error{color:#fda4af}
+@media(max-width:760px){.creator,.pricing{grid-template-columns:1fr}.admin{grid-template-columns:1fr}.admin .full{grid-column:auto}.navlinks{display:none}.hero{min-height:70vh}}
+</style>
+</head>
+<body>
+<nav><div class="logo">DE <span>VENOM</span></div><div class="navlinks"><a href="#create">Create</a><a href="#premium">Premium</a><a href="#admin">Admin</a></div></nav>
+
+<header class="hero">
+  <div>
+    <div class="badge">20-SECOND CINEMATIC CREATOR · NO PAYSTACK REQUIRED</div>
+    <h1>Turn your photos into a <span class="grad">movie.</span></h1>
+    <p>Upload one or multiple images, add your story, and create a polished 20-second cinematic video with a shareable view-once link.</p>
+    <div class="actions"><a class="btn" href="#create">Create a cinematic</a><a class="btn secondary" href="#premium">See Premium</a></div>
+  </div>
+</header>
+
+<section id="create">
+  <div class="section-title">Cinematic creator</div>
+  <p class="muted">Upload up to 8 images. The server turns them into a 20-second MP4.</p>
+  <div class="creator">
+    <div class="card">
+      <form id="creatorForm">
+        <div class="field"><label>Images</label><div class="drop"><input id="images" name="images" type="file" accept="image/jpeg,image/png,image/webp" multiple required><div id="preview" class="preview"></div></div></div>
+        <div class="field"><label>Story / cinematic text</label><textarea name="text" placeholder="A beautiful day. A moment worth remembering."></textarea></div>
+        <div class="field"><label>Outfit-edit command</label><input name="outfitCommand" type="text" placeholder="Example: change the outfit to an elegant black suit"></div>
+        <button class="btn" type="submit">Generate 20-second video</button>
+        <div id="creatorStatus" class="status"></div>
+      </form>
+      <div id="result" class="result"></div>
+    </div>
+    <div class="card">
+      <h3>What this version does</h3>
+      <p class="feature">✓ 20-second MP4 generation</p>
+      <p class="feature">✓ Multiple-image support</p>
+      <p class="feature">✓ Cinematic text overlay</p>
+      <p class="feature">✓ View-once links</p>
+      <p class="feature">✓ Outfit command interface</p>
+      <p class="feature">✓ No payment gateway needed yet</p>
+      <p class="muted">Describe a clothing change such as a suit, dress, jacket, color, or style. The API is ready to connect to an image-editing AI provider.</p>
+    </div>
+  </div>
+</section>
+
+<section id="premium-access">
+  <div class="section-title">Premium access</div>
+  <p class="muted">Free users can create videos as view-once links. Only Premium users can use normal persistent video links.</p>
+  <div class="card">
+    <div class="field"><label>Premium access key</label><input id="premiumKey" type="password" placeholder="Enter your Premium access key"></div>
+    <button id="activatePremium" class="btn">Activate Premium</button>
+    <div id="premiumStatus" class="status"></div>
+  </div>
+</section>
+
+<section id="premium">
+  <div class="section-title">Premium</div>
+  <p class="muted">Prices are display-only for now. No Paystack integration is included.</p>
+  <div class="pricing">
+    <div class="card"><div>MONTHLY</div><div class="price" id="monthlyPrice">₦1,000 <small>/ month</small></div><p class="feature">Premium creator access</p><p class="feature">Cinematic generation</p></div>
+    <div class="card"><div>YEARLY</div><div class="price" id="yearlyPrice">₦15,000 <small>/ year</small></div><p class="feature">Premium creator access</p><p class="feature">Better value for regular creators</p></div>
+  </div>
+</section>
+
+<section id="admin">
+  <div class="section-title">Admin price control</div>
+  <p class="muted">Use the ADMIN_KEY environment variable on Render. This only changes the displayed prices; it does not process payments.</p>
+  <div class="card">
+    <div class="admin">
+      <div><label>Admin key</label><input id="adminKey" type="password" placeholder="Your Render ADMIN_KEY"></div>
+      <div></div>
+      <div><label>Monthly price (₦)</label><input id="monthlyInput" type="number" value="1000" min="0"></div>
+      <div><label>Yearly price (₦)</label><input id="yearlyInput" type="number" value="15000" min="0"></div>
+      <div class="full"><button id="savePrices" class="btn">Save prices</button><div id="adminStatus" class="status"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="outfit-editor">
+  <div class="section-title">DE Venom clothing editor</div>
+  <p class="muted">Describe a legitimate clothing or style change. This interface is ready to connect to an image-editing AI provider.</p>
+  <div class="card">
+    <div class="field"><label>Clothing change</label><input id="outfit" type="text" placeholder="Change the outfit to a navy-blue suit with a white shirt"></div>
+    <button id="sendOutfit" class="btn secondary">Apply clothing command</button><div id="outfitStatus" class="status"></div><p class="muted" style="font-size:12px;margin-top:12px">Supported direction: changing or styling clothing. The site does not provide clothing-removal/undressing functionality.</p>
+  </div>
+</section>
+
+<footer>DE Venom · Built for GitHub + Render · <a href="/health" style="color:#aaa">Health check</a></footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+$("images").addEventListener("change", () => {
+  $("preview").innerHTML = "";
+  [...$("images").files].slice(0,8).forEach(file => {
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    $("preview").appendChild(img);
+  });
+});
+
+async function loadPrices(){
+  try{
+    const r = await fetch("/api/prices"); const p = await r.json();
+    $("monthlyPrice").innerHTML = `₦${Number(p.monthly).toLocaleString()} <small>/ month</small>`;
+    $("yearlyPrice").innerHTML = `₦${Number(p.yearly).toLocaleString()} <small>/ year</small>`;
+    $("monthlyInput").value = p.monthly; $("yearlyInput").value = p.yearly;
+  }catch{}
+}
+loadPrices();
+
+$("creatorForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const status = $("creatorStatus"), result = $("result");
+  status.className = "status"; status.textContent = "Creating your cinematic video… this can take a little while.";
+  result.style.display = "none";
+  const data = new FormData(e.target);
+  try{
+    const headers = {};
+    const premiumToken = localStorage.getItem("deVenomPremiumToken");
+    if (premiumToken) headers["x-premium-token"] = premiumToken;
+    const r = await fetch("/api/create-video", {method:"POST", headers, body:data});
+    const out = await r.json();
+    if(!r.ok) throw new Error(out.error || "Generation failed");
+    status.className = "status success"; status.textContent = "Video created successfully.";
+    result.style.display = "block";
+    result.innerHTML = out.premium
+      ? `<strong>Premium video link</strong><br><a href="${out.videoUrl}" target="_blank">${location.origin}${out.videoUrl}</a><br><br><span class="muted">Premium users are not restricted to view-once playback.</span>`
+      : `<strong>View-once link</strong><br><a href="${out.viewOnceUrl}" target="_blank">${location.origin}${out.viewOnceUrl}</a><br><br><span class="muted">Upgrade to Premium to use normal persistent video links.</span>`;
+  }catch(err){
+    status.className = "status error"; status.textContent = err.message;
+  }
+});
+
+$("savePrices").addEventListener("click", async () => {
+  const status = $("adminStatus"); status.className="status"; status.textContent="Saving…";
+  try{
+    const r = await fetch("/api/admin/prices", {
+      method:"PUT", headers:{"Content-Type":"application/json","x-admin-key":$("adminKey").value},
+      body:JSON.stringify({monthly:Number($("monthlyInput").value), yearly:Number($("yearlyInput").value)})
+    });
+    const out = await r.json(); if(!r.ok) throw new Error(out.error || "Unauthorized");
+    status.className="status success"; status.textContent="Prices updated.";
+    loadPrices();
+  }catch(err){status.className="status error"; status.textContent=err.message}
+});
+
+$("sendOutfit").addEventListener("click", async () => {
+  const status=$("outfitStatus"); status.textContent="Sending…";
+  try{
+    const r=await fetch("/api/outfit-edit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({command:$("outfit").value})});
+    const out=await r.json(); if(!r.ok) throw new Error(out.error);
+    status.className="status success"; status.textContent=out.message;
+  }catch(err){status.className="status error"; status.textContent=err.message}
+});
+
+$("activatePremium").addEventListener("click", async () => {
+  const status = $("premiumStatus");
+  status.className = "status";
+  status.textContent = "Activating Premium…";
+  try {
+    const r = await fetch("/api/premium/activate", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({key: $("premiumKey").value})
+    });
+    const out = await r.json();
+    if (!r.ok) throw new Error(out.error || "Activation failed");
+    localStorage.setItem("deVenomPremiumToken", out.token);
+    status.className = "status success";
+    status.textContent = "Premium activated. New videos can use persistent links.";
+  } catch (err) {
+    status.className = "status error";
+    status.textContent = err.message;
+  }
+});
+</script>
+</body>
+</html>

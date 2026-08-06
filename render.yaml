@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: cinematic-studio
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_KEY
+        sync: false
+      - key: BASE_URL
+        sync: false

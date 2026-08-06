@@ -1,0 +1,15 @@
+{
+  "name": "cinematic-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cinematic image-to-video website with view-once links and admin pricing controls.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "ffmpeg-static": "^5.2.0",
+    "multer": "^2.0.2"
+  }
+}
